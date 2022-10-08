@@ -4,14 +4,17 @@ https://engineering.fb.com/open-source/private-matching/) adapted from
 and inspired by the [Rust variant of Private-ID by Facebook Research](https://github.com/facebookresearch/Private-ID).
 
 ## Development Dependencies
-The build process for this project requires [Rust](https://www.rust-lang.org/tools/install) and [Node.js](https://nodejs.org/). In addition, it is necessary to install [wasm-pack](https://rustwasm.github.io/wasm-pack/):
+The build process for this project requires [Rust](https://www.rust-lang.org/tools/install) and [Node.js](https://nodejs.org/). 
+In addition, it is necessary to install [wasm-pack](https://rustwasm.github.io/wasm-pack/):
 ```shell
 cargo install wasm-pack
 ```
+for this project to run `wasm-pack` is necessary use rust `v1.58.0`
+
 
 Don't forget to initialize the [original Private-ID source](https://github.com/facebookresearch/Private-ID)!
 ```shell
-git submodule init
+git submodule update --init --recursive
 ```
 
 ## Build Process
@@ -30,6 +33,7 @@ Tests can be invoked in the following way via the Node package definitions:
 npm test
 ```
 Alternatively, they can be invoked directly in the following way:
+For this case at the moment of writing use rust v1.64.0 or greater
 ```shell
 cd src; cargo run --bin private-id-test
 ```

@@ -1,4 +1,4 @@
-use crypto::prelude::Bytes;
+use crypto::prelude::TPayload;
 
 use wrappers::{
     partner_step_2, partner_step_3, partner_step_4,
@@ -11,7 +11,7 @@ use wrappers::{
 };
 
 pub fn test(n: usize) -> String {
-    let not_matched_val: Option<&String> = Option::Some("Unknown");
+    let not_matched_val: Option<&str> = Option::Some("Unknown");
     let use_row_numbers = true;
 
     let mut data: String = "".to_owned();
@@ -31,23 +31,23 @@ pub fn test(n: usize) -> String {
     // 4. Permute data and hash
     partner_step_2(partner_input);
     partner_step_3();
-    let u_partner: Bytes = partner_step_4();
+    let u_partner: TPayload = partner_step_4();
 
     // 5. Initialize company - this loads company's data and generates its permutation pattern
     // company_init();
     company_step_5(company_input);
 
     // 6. Get data from company
-    let mut u_company: Bytes = Bytes::new();
+    let mut u_company: TPayload = TPayload::new();
     // rpc_client::recv().await.unwrap();  // tag name: "u_company".to_string()
 
-    let res: Bytes = company_step_6();
+    let res: TPayload = company_step_6();
 
     u_company = /*receive(*/(res)/*)*/;
     // println!("{}", u_company);
 
     // 7. Permute and encrypt data from company with own keys
-    let (e_company, v_company): (Bytes, Bytes) = partner_step_7(u_company);
+    let (e_company, v_company): (TPayload, TPayload) = partner_step_7(u_company);
 
     // 8. Send partner's data to company
     // let ack_u_partner = rpc_client::send(u_partner);  // tag name: "u_partner".to_string()
@@ -71,7 +71,7 @@ pub fn test(n: usize) -> String {
     // };
 
     // 10. Receive partner's back from company
-    let mut v_partner = Bytes::new();
+    let mut v_partner = TPayload::new();
     // rpc_client::recv(&mut v_partner);  // "v_partner".to_string()
     v_partner = /*receive(*/(company_step_10())/*)*/;
 
@@ -80,12 +80,12 @@ pub fn test(n: usize) -> String {
     company_step_11();
 
     // 12. Get data that partner has but company doesn't
-    let mut s_prime_partner = Bytes::new();
+    let mut s_prime_partner = TPayload::new();
     // rpc_client::recv(&mut s_prime_partner);  // tag name: "s_prime_partner".to_string()
     s_prime_partner = /*    receive(*/(company_step_12())/*)    */;
 
     // 13. Get data that company has but partner doesn't
-    let mut s_prime_company = Bytes::new();
+    let mut s_prime_company = TPayload::new();
     // rpc_client::recv(&mut s_prime_company);  // tag name: "s_prime_company".to_string()
     s_prime_company = /*    receive(*/(company_step_13())/*)    */;
 
